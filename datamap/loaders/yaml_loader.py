@@ -9,7 +9,7 @@ from datamap.loaders.base import BaseLoader
 
 
 class YAMLLoader(BaseLoader):
-    """Loads ``.yaml`` / ``.yml`` files using PyYAML (safe_load)."""
+    """Загрузчик для файлов в формате YAML (использует PyYAML)."""
 
     extensions: ClassVar[List[str]] = [".yaml", ".yml"]
 

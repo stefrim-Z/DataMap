@@ -110,16 +110,16 @@ class DataNode:
 
 class DataAnalyzer:
     """
-    Analyse a data file and produce a Rich Tree visualisation.
+    Анализирует файл данных и создает визуализацию в виде дерева Rich Tree.
 
-    Parameters
+    Параметры
     ----------
     path:
-        Path to the file to analyse.
+        Путь к файлу для анализа.
     max_depth:
-        Maximum recursion depth (``None`` = unlimited).
+        Максимальная глубина рекурсии (``None`` = без ограничений).
     show_meta:
-        Whether to show length/key-count metadata on collection nodes.
+        Нужно ли отображать метаданные (кол-во ключей/элементов) для коллекций.
     """
 
     def __init__(

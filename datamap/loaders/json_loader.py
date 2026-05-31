@@ -10,7 +10,7 @@ from datamap.loaders.base import BaseLoader
 
 
 class JSONLoader(BaseLoader):
-    """Loads ``.json`` files using the standard-library ``json`` module."""
+    """Загрузчик для файлов в формате JSON (использует стандартную библиотеку json)."""
 
     extensions: ClassVar[List[str]] = [".json"]
 

@@ -10,10 +10,10 @@ from datamap.loaders.base import BaseLoader
 
 
 class TOMLLoader(BaseLoader):
-    """Loads ``.toml`` files.
-
-    Uses the stdlib ``tomllib`` on Python 3.11+, falls back to
-    the ``tomli`` third-party package on older versions.
+    """
+    Загрузчик для файлов в формате TOML.
+    
+    Использует стандартную библиотеку tomllib (Python 3.11+) или пакет tomli.
     """
 
     extensions: ClassVar[List[str]] = [".toml"]

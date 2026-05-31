@@ -122,7 +122,14 @@ class DetailPane(Static):
 
 
 class DataMapApp(App[None]):
-    """Interactive Textual TUI for DataMap."""
+    """
+    Интерактивный TUI (Terminal User Interface) для DataMap, построенный на Textual.
+    
+    Позволяет:
+    - Просматривать структуру данных в виде дерева.
+    - Искать по ключам и значениям.
+    - Просматривать полное содержимое узла в правой панели.
+    """
 
     CSS_PATH = None  # inline CSS below
     TITLE = "DataMap"

@@ -24,26 +24,19 @@ def export_tree(
     max_depth: Optional[int] = None,
 ) -> Path:
     """
-    Render the tree for *path* and save it as SVG or HTML.
+    Экспортирует дерево визуализации в формат SVG или HTML.
 
-    Parameters
+    Параметры
     ----------
-    path:     Input data file.
-    fmt:      ``"svg"`` or ``"html"``.
-    output:   Destination file.  Defaults to ``<path>.<fmt>``.
-    max_depth: Max tree depth (unlimited if ``None``).
+    path:      Входной файл с данными.
+    fmt:       Формат экспорта (``"svg"`` или ``"html"``).
+    output:    Путь к выходному файлу. По умолчанию: ``<имя_файла>.<формат>``.
+    max_depth: Максимальная глубина дерева.
 
-    Returns
+    Возвращает
     -------
     Path
-        The resolved output file path.
-
-    Raises
-    ------
-    DataMapError
-        On any load / render failure.
-    ValueError
-        If *fmt* is not ``"svg"`` or ``"html"``.
+        Абсолютный путь к созданному файлу.
     """
     path = Path(path)
     if fmt not in ("svg", "html"):

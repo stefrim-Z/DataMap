@@ -1,5 +1,5 @@
 """
-DataMap — Visualize any JSON/YAML/TOML/ENV data as a beautiful tree.
+DataMap — Визуализация данных (JSON/YAML/TOML/ENV) в виде красивого дерева в терминале.
 """
 
 __version__ = "1.0.0"

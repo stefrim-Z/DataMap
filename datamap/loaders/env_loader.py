@@ -28,7 +28,7 @@ _LINE_RE = re.compile(
 
 
 class EnvLoader(BaseLoader):
-    """Loads ``.env`` files into a flat key→value dictionary."""
+    """Загрузчик для файлов .env (формат key=value)."""
 
     extensions: ClassVar[List[str]] = [".env"]
 

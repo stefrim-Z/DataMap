@@ -19,7 +19,14 @@ from typing import Any, ClassVar, List
 
 
 class BaseLoader(abc.ABC):
-    """Abstract base class for all DataMap file loaders."""
+    """
+    Абстрактный базовый класс для всех загрузчиков файлов в DataMap.
+    
+    Каждый загрузчик должен:
+    1. Наследовать этот класс.
+    2. Указать поддерживаемые расширения в атрибуте `extensions`.
+    3. Реализовать метод `load(path)`.
+    """
 
     # Subclasses declare which file extensions they handle, e.g. [".json"]
     extensions: ClassVar[List[str]] = []

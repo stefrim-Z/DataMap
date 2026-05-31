@@ -1,0 +1,23 @@
+{
+  "name": "DataMap",
+  "description": "Rich metadata example",
+  "version": "1.0.0",
+  "active": true,
+  "score": 9.8,
+  "tags": ["cli", "python", "rich", "terminal", "yaml", "json"],
+  "nothing": null,
+  "author": {
+    "name": "DataMap Contributors",
+    "github": "https://github.com/yourusername/datamap",
+    "languages": ["Python", "Shell"]
+  },
+  "dependencies": {
+    "rich": ">=13.0.0",
+    "pyyaml": ">=6.0",
+    "textual": ">=0.50.0"
+  },
+  "ci": {
+    "matrix": ["3.9", "3.10", "3.11", "3.12"],
+    "coverage_threshold": 90
+  }
+}

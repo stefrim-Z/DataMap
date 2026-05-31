@@ -18,13 +18,13 @@ class TOMLLoader(BaseLoader):
 
     extensions: ClassVar[list[str]] = [".toml"]
 
-    def _get_tomllib(self):  # type: ignore[return]
+    def _get_tomllib(self) -> Any:
         if sys.version_info >= (3, 11):
             import tomllib
 
             return tomllib
         try:
-            import tomli as tomllib  # type: ignore[no-redef]
+            import tomli as tomllib
 
             return tomllib
         except ImportError as exc:

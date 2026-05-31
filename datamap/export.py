@@ -63,7 +63,6 @@ def export_tree(
         output.write_text(svg_content, encoding="utf-8")
     else:
         html_content = record_console.export_html(
-            title=f"DataMap — {path.name}",
             inline_styles=True,
         )
         output.write_text(html_content, encoding="utf-8")

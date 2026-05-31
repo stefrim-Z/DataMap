@@ -51,8 +51,8 @@ from datamap.core import DataAnalyzer, DataMapError
 # ---------------------------------------------------------------------------
 
 
-def _populate_node(node: TreeNode, value: Any, query: str = "") -> None:  # noqa: C901
-    """Recursively attach children to *node* from *value*."""
+def _populate_node(node: TreeNode[Any], value: Any, query: str = "") -> None:  # noqa: C901
+    """Рекурсивно прикрепляет дочерние элементы к *node* на основе *value*."""
     if isinstance(value, dict):
         for k, v in value.items():
             label = str(k)
@@ -69,6 +69,7 @@ def _populate_node(node: TreeNode, value: Any, query: str = "") -> None:  # noqa
             child = node.add(label, data=v, expand=False)
             if isinstance(v, (dict, list)):
                 _populate_node(child, v, query)
+
 
 
 def _subtree_matches(value: Any, query: str) -> bool:
@@ -225,7 +226,7 @@ class DataMapApp(App[None]):
             self.call_from_thread(self._set_status, f"[red]Error: {exc}[/red]")
 
     def _populate_tree(self, data: Any, query: str) -> None:
-        tree: Tree = self.query_one("#data-tree", Tree)
+        tree: Tree[Any] = self.query_one("#data-tree", Tree)
         tree.clear()
         label = str(self._path.name) if self._path else "data"
         root = tree.root
@@ -247,7 +248,7 @@ class DataMapApp(App[None]):
             self._populate_tree(self._raw_data, q)
 
     @on(Tree.NodeSelected, "#data-tree")
-    def on_node_selected(self, event: Tree.NodeSelected) -> None:
+    def on_node_selected(self, event: Tree.NodeSelected[Any]) -> None:
         detail: DetailPane = self.query_one("#detail", DetailPane)
         data = event.node.data
         if data is not None:
@@ -258,11 +259,11 @@ class DataMapApp(App[None]):
     # ------------------------------------------------------------------
 
     def action_collapse_all(self) -> None:
-        tree: Tree = self.query_one("#data-tree", Tree)
+        tree: Tree[Any] = self.query_one("#data-tree", Tree)
         tree.root.collapse_all()
 
     def action_expand_all(self) -> None:
-        tree: Tree = self.query_one("#data-tree", Tree)
+        tree: Tree[Any] = self.query_one("#data-tree", Tree)
         tree.root.expand_all()
 
     def action_focus_search(self) -> None:

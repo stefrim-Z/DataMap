@@ -64,61 +64,61 @@ Every developer knows the pain:
 
 > **DataMap is the `cat` command you always wished existed.**
 
-## 🚀 Установка
+## 🚀 Installation
 
-### Быстрый способ (через pip)
+### Via Pip (Recommended)
 
-Если вы хотите использовать DataMap как готовую утилиту:
+To use DataMap as a standalone CLI tool:
 ```bash
 pip install datamap
 ```
 
-### Режим разработчика (из исходников)
+### From Source (Development Mode)
 
-Если вы скачали этот репозиторий и хотите вносить изменения:
+If you have cloned this repository and want to contribute or modify the code:
 ```bash
-# Перейдите в папку проекта
+# Navigate to the project directory
 cd DataMap
 
-# Установите в редактируемом режиме со всеми зависимостями
+# Install in editable mode with all dependencies
 pip install -e ".[all]"
 ```
 
 ---
 
-## 📖 Использование
+## 📖 Usage
 
-### 🌲 Просмотр структуры файла (CLI)
+### 🌲 Visualize a File (CLI)
 
-Самый простой способ увидеть дерево данных:
+The simplest way to view your data as a tree:
 ```bash
-# Введите команду и путь к файлу
+# Provide the command and the path to your file
 datamap config.json
 datamap settings.yaml
 datamap pyproject.toml
 datamap .env
 ```
 
-### 🔍 Ограничение глубины
+### 🔍 Limit Depth
 
-Если файл очень большой, можно ограничить уровень вложенности:
+For very large files, you can limit the recursion depth:
 ```bash
 datamap config.json --depth 2
 ```
 
-### 🖥️ Интерактивный режим (TUI)
+### 🖥️ Interactive Mode (TUI)
 
-Для полноценного исследования данных с поиском:
+For deep data exploration with real-time search:
 ```bash
 datamap tui config.json
 ```
-*   **Стрелки**: навигация по дереву.
-*   **F**: поиск по ключам и значениям.
-*   **Q**: выход.
+*   **Arrow Keys**: Navigate the tree.
+*   **F**: Focus the fuzzy search bar.
+*   **Q**: Quit.
 
-### 📤 Экспорт в SVG или HTML
+### 📤 Export to SVG or HTML
 
-Идеально для вставки в документацию:
+Perfect for embedding in documentation or reports:
 ```bash
 datamap export config.json --format svg
 datamap export settings.yaml --format html --output ./docs/tree.html
@@ -126,34 +126,38 @@ datamap export settings.yaml --format html --output ./docs/tree.html
 
 ---
 
-## 🧪 Практическое тестирование
+## 🧪 Practical Testing
 
-Если вы хотите проверить работу репозитория на тестовых данных:
+To test DataMap with sample data without full installation:
 
-1. Создайте тестовую папку и файлы.
-2. Укажите путь к исходному коду:
+1. Create a test directory and some sample files.
+2. Point Python to the source code:
    ```powershell
-   $env:PYTHONPATH = "C:\Путь\К\DataMap"
+   $env:PYTHONPATH = "C:\Path\To\DataMap"
    ```
-3. Запустите проверку:
+3. Run the analyzer directly:
    ```powershell
    python -m datamap.core path/to/your/test/file.json
    ```
 
 ---
 
-## 🔌 Использование как библиотеки
+## 🔌 Using as a Library
 
-Вы можете импортировать DataMap в свои Python-проекты:
+You can integrate DataMap's logic directly into your own Python projects:
 
 ```python
 from datamap.core import DataAnalyzer
 from pathlib import Path
 
+# Initialize the analyzer
 analyzer = DataAnalyzer(Path("data.json"))
+
+# Load and analyze data
 data = analyzer.load()
 tree = analyzer.build_tree(analyzer.analyse(data))
 
+# Render to console using Rich
 from rich.console import Console
 Console().print(tree)
 ```

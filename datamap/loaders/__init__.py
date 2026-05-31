@@ -55,6 +55,11 @@ LOADER_REGISTRY: Dict[str, Type[BaseLoader]] = _discover_loaders()
 def get_loader(path: Path) -> BaseLoader:
     """Return an appropriate loader instance for *path*, or raise ValueError."""
     ext = path.suffix.lower()
+    
+    # Handle files like .env (where suffix might be empty)
+    if not ext and path.name.startswith("."):
+        ext = path.name.lower()
+        
     cls = LOADER_REGISTRY.get(ext)
     if cls is None:
         supported = ", ".join(sorted(LOADER_REGISTRY.keys()))

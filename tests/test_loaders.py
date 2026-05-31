@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
-
 
 # ---------------------------------------------------------------------------
 # JSON Loader
@@ -96,7 +94,7 @@ class TestEnvLoader:
         from datamap.loaders.env_loader import EnvLoader
 
         p = tmp_path / ".env"
-        p.write_text('KEY="hello world"\nOTHER=\'single\'\n', encoding="utf-8")
+        p.write_text("KEY=\"hello world\"\nOTHER='single'\n", encoding="utf-8")
         result = EnvLoader().load(p)
         assert result["KEY"] == "hello world"
         assert result["OTHER"] == "single"

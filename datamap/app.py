@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from textual import on, work
 from textual.app import App, ComposeResult
@@ -45,7 +45,6 @@ from textual.widgets import (
 from textual.widgets.tree import TreeNode
 
 from datamap.core import DataAnalyzer, DataMapError
-
 
 # ---------------------------------------------------------------------------
 # Helper — populate a Textual Tree from raw Python data
@@ -82,10 +81,7 @@ def _subtree_matches(value: Any, query: str) -> bool:
     if isinstance(value, (int, float, bool)):
         return q in str(value).lower()
     if isinstance(value, dict):
-        return any(
-            q in str(k).lower() or _subtree_matches(v, query)
-            for k, v in value.items()
-        )
+        return any(q in str(k).lower() or _subtree_matches(v, query) for k, v in value.items())
     if isinstance(value, list):
         return any(_subtree_matches(item, query) for item in value)
     return False
@@ -124,7 +120,7 @@ class DetailPane(Static):
 class DataMapApp(App[None]):
     """
     Интерактивный TUI (Terminal User Interface) для DataMap, построенный на Textual.
-    
+
     Позволяет:
     - Просматривать структуру данных в виде дерева.
     - Искать по ключам и значениям.
@@ -183,7 +179,7 @@ class DataMapApp(App[None]):
     # reactive: current search query
     search_query: reactive[str] = reactive("", layout=True)
 
-    def __init__(self, path: Optional[Path] = None) -> None:
+    def __init__(self, path: Path | None = None) -> None:
         super().__init__()
         self._path = Path(path) if path else None
         self._raw_data: Any = None
@@ -224,13 +220,9 @@ class DataMapApp(App[None]):
             data = analyzer.load()
             self._raw_data = data
             self.call_from_thread(self._populate_tree, data, "")
-            self.call_from_thread(
-                self._set_status, f"✔  {path.name}  —  loaded"
-            )
+            self.call_from_thread(self._set_status, f"✔  {path.name}  —  loaded")
         except DataMapError as exc:
-            self.call_from_thread(
-                self._set_status, f"[red]Error: {exc}[/red]"
-            )
+            self.call_from_thread(self._set_status, f"[red]Error: {exc}[/red]")
 
     def _populate_tree(self, data: Any, query: str) -> None:
         tree: Tree = self.query_one("#data-tree", Tree)

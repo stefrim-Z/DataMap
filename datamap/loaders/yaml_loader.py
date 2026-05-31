@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, ClassVar, List
+from typing import Any, ClassVar
 
 from datamap.loaders.base import BaseLoader
 
@@ -11,7 +11,7 @@ from datamap.loaders.base import BaseLoader
 class YAMLLoader(BaseLoader):
     """Загрузчик для файлов в формате YAML (использует PyYAML)."""
 
-    extensions: ClassVar[List[str]] = [".yaml", ".yml"]
+    extensions: ClassVar[list[str]] = [".yaml", ".yml"]
 
     def load(self, path: Path) -> Any:
         self.validate(path)
@@ -19,8 +19,7 @@ class YAMLLoader(BaseLoader):
             import yaml  # optional dependency
         except ImportError as exc:
             raise ImportError(
-                "PyYAML is required for YAML support.  "
-                "Install it with:  pip install pyyaml"
+                "PyYAML is required for YAML support.  Install it with:  pip install pyyaml"
             ) from exc
 
         try:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar
 
 from datamap.loaders.base import BaseLoader
 
@@ -30,7 +30,7 @@ _LINE_RE = re.compile(
 class EnvLoader(BaseLoader):
     """Загрузчик для файлов .env (формат key=value)."""
 
-    extensions: ClassVar[List[str]] = [".env"]
+    extensions: ClassVar[list[str]] = [".env"]
 
     def load(self, path: Path) -> Any:
         self.validate(path)
@@ -39,7 +39,7 @@ class EnvLoader(BaseLoader):
         except PermissionError as exc:
             raise PermissionError(f"Permission denied: {path}") from exc
 
-        result: Dict[str, str] = {}
+        result: dict[str, str] = {}
         for lineno, line in enumerate(lines, start=1):
             stripped = line.strip()
             # skip blanks and comments
@@ -47,9 +47,7 @@ class EnvLoader(BaseLoader):
                 continue
             m = _LINE_RE.match(line)
             if not m:
-                raise ValueError(
-                    f"Invalid .env syntax in '{path}' at line {lineno}: {line!r}"
-                )
+                raise ValueError(f"Invalid .env syntax in '{path}' at line {lineno}: {line!r}")
             key = m.group("key")
             raw = m.group("value").strip()
             # strip surrounding quotes and unescape

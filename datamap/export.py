@@ -9,7 +9,6 @@ Usage:
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
 
 from rich.console import Console
 
@@ -20,8 +19,8 @@ def export_tree(
     path: Path,
     *,
     fmt: str = "svg",
-    output: Optional[Path] = None,
-    max_depth: Optional[int] = None,
+    output: Path | None = None,
+    max_depth: int | None = None,
 ) -> Path:
     """
     Экспортирует дерево визуализации в формат SVG или HTML.

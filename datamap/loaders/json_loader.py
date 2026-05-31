@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, ClassVar, List
+from typing import Any, ClassVar
 
 from datamap.loaders.base import BaseLoader
 
@@ -12,7 +12,7 @@ from datamap.loaders.base import BaseLoader
 class JSONLoader(BaseLoader):
     """Загрузчик для файлов в формате JSON (использует стандартную библиотеку json)."""
 
-    extensions: ClassVar[List[str]] = [".json"]
+    extensions: ClassVar[list[str]] = [".json"]
 
     def load(self, path: Path) -> Any:
         self.validate(path)
@@ -25,8 +25,7 @@ class JSONLoader(BaseLoader):
             return json.loads(text)
         except json.JSONDecodeError as exc:
             raise ValueError(
-                f"Invalid JSON in '{path}' — {exc.msg} "
-                f"(line {exc.lineno}, col {exc.colno})"
+                f"Invalid JSON in '{path}' — {exc.msg} (line {exc.lineno}, col {exc.colno})"
             ) from exc
 
     def description(self) -> str:

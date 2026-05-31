@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any, ClassVar, List
+from typing import Any, ClassVar
 
 from datamap.loaders.base import BaseLoader
 
@@ -12,18 +12,20 @@ from datamap.loaders.base import BaseLoader
 class TOMLLoader(BaseLoader):
     """
     Загрузчик для файлов в формате TOML.
-    
+
     Использует стандартную библиотеку tomllib (Python 3.11+) или пакет tomli.
     """
 
-    extensions: ClassVar[List[str]] = [".toml"]
+    extensions: ClassVar[list[str]] = [".toml"]
 
     def _get_tomllib(self):  # type: ignore[return]
         if sys.version_info >= (3, 11):
             import tomllib
+
             return tomllib
         try:
             import tomli as tomllib  # type: ignore[no-redef]
+
             return tomllib
         except ImportError as exc:
             raise ImportError(

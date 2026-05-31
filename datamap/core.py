@@ -1,4 +1,4 @@
-﻿"""
+"""
 DataMap Core — DataAnalyzer class + Rich tree renderer.
 
 This module is the heart of DataMap.  It:
@@ -15,11 +15,10 @@ CLI usage (via pyproject entry-point):
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from rich import box
 from rich.console import Console
@@ -41,16 +40,16 @@ class DataMapError(Exception):
 # ---------------------------------------------------------------------------
 
 _C = {
-    "key":      "bold cyan",
-    "str":      "green",
-    "number":   "gold1",
-    "bool":     "medium_purple1",
-    "null":     "dim red",
-    "type":     "grey50",
-    "meta":     "grey46",
-    "list":     "bold yellow",
-    "dict":     "bold cyan",
-    "logo":     "bold bright_cyan",
+    "key": "bold cyan",
+    "str": "green",
+    "number": "gold1",
+    "bool": "medium_purple1",
+    "null": "dim red",
+    "type": "grey50",
+    "meta": "grey46",
+    "list": "bold yellow",
+    "dict": "bold cyan",
+    "logo": "bold bright_cyan",
 }
 
 ASCII_LOGO = (
@@ -78,8 +77,8 @@ class DataNode:
 
     value: Any
     python_type: str = field(default="")
-    length: Optional[int] = None        # len() for list/dict/str
-    children: List["DataNode"] = field(default_factory=list)
+    length: int | None = None  # len() for list/dict/str
+    children: list[DataNode] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.python_type = self._detect_type(self.value)
@@ -126,7 +125,7 @@ class DataAnalyzer:
         self,
         path: Path,
         *,
-        max_depth: Optional[int] = None,
+        max_depth: int | None = None,
         show_meta: bool = True,
     ) -> None:
         self.path = Path(path)
@@ -166,7 +165,7 @@ class DataAnalyzer:
         self._attach_children(tree, root_node, depth=0)
         return tree
 
-    def render(self, console: Optional[Console] = None) -> None:
+    def render(self, console: Console | None = None) -> None:
         """Full pipeline: load -> analyse -> render to *console*."""
         console = console or Console()
         console.print(ASCII_LOGO)
@@ -223,9 +222,7 @@ class DataAnalyzer:
         t.append(label or str(self.path), style="bold bright_white")
         return t
 
-    def _attach_children(
-        self, parent: Tree, node: DataNode, depth: int
-    ) -> None:
+    def _attach_children(self, parent: Tree, node: DataNode, depth: int) -> None:
         for child in node.children:
             key = getattr(child, "_key", "?")
             branch_label = self._make_label(key, child)
@@ -285,7 +282,7 @@ class DataAnalyzer:
         size = self._file_size
         if size < 1024:
             human = f"{size} B"
-        elif size < 1024 ** 2:
+        elif size < 1024**2:
             human = f"{size / 1024:.1f} KB"
         else:
             human = f"{size / 1024**2:.1f} MB"
@@ -322,34 +319,34 @@ def _build_parser() -> argparse.ArgumentParser:
     view = sub.add_parser("view", help="Render a file as a tree (default)")
     view.add_argument("file", type=Path, metavar="FILE")
     view.add_argument(
-        "--depth", "-d", type=int, default=None, metavar="N",
-        help="Maximum depth to expand (default: unlimited)"
+        "--depth",
+        "-d",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Maximum depth to expand (default: unlimited)",
     )
-    view.add_argument(
-        "--no-meta", action="store_true",
-        help="Hide length/key-count metadata"
-    )
+    view.add_argument("--no-meta", action="store_true", help="Hide length/key-count metadata")
 
     # ---- export ----
     export_p = sub.add_parser("export", help="Export tree as SVG or HTML")
     export_p.add_argument("file", type=Path, metavar="FILE")
     export_p.add_argument(
-        "--format", choices=["svg", "html"], default="svg",
-        help="Output format (default: svg)"
+        "--format", choices=["svg", "html"], default="svg", help="Output format (default: svg)"
     )
     export_p.add_argument(
-        "--output", "-o", type=Path, default=None,
-        help="Output file path (default: <FILE>.<format>)"
+        "--output",
+        "-o",
+        type=Path,
+        default=None,
+        help="Output file path (default: <FILE>.<format>)",
     )
-    export_p.add_argument(
-        "--depth", "-d", type=int, default=None, metavar="N"
-    )
+    export_p.add_argument("--depth", "-d", type=int, default=None, metavar="N")
 
     # ---- tui ----
     tui_p = sub.add_parser("tui", help="Open the interactive Terminal UI")
     tui_p.add_argument(
-        "file", nargs="?", type=Path, metavar="FILE",
-        help="File to open in TUI (optional)"
+        "file", nargs="?", type=Path, metavar="FILE", help="File to open in TUI (optional)"
     )
 
     # ---- info ----
@@ -358,7 +355,7 @@ def _build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     """CLI entry-point — returns exit code."""
     # ----------------------------------------------------------------
     # Positional shortcut: `datamap <file> [opts]`
@@ -369,7 +366,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         argv = sys.argv[1:]
 
     # Find first non-flag token
-    first_positional: Optional[str] = None
+    first_positional: str | None = None
     for tok in argv:
         if not tok.startswith("-"):
             first_positional = tok
@@ -385,6 +382,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     # ---- info ----
     if args.command == "info":
         from datamap.loaders import LOADER_REGISTRY
+
         console.print("[bold cyan]Registered DataMap loaders:[/bold cyan]")
         for ext, cls in sorted(LOADER_REGISTRY.items()):
             console.print(f"  [green]{ext}[/green]  ->  {cls.__name__}")

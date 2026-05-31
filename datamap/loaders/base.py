@@ -15,13 +15,13 @@ from __future__ import annotations
 
 import abc
 from pathlib import Path
-from typing import Any, ClassVar, List
+from typing import Any, ClassVar
 
 
 class BaseLoader(abc.ABC):
     """
     Абстрактный базовый класс для всех загрузчиков файлов в DataMap.
-    
+
     Каждый загрузчик должен:
     1. Наследовать этот класс.
     2. Указать поддерживаемые расширения в атрибуте `extensions`.
@@ -29,7 +29,7 @@ class BaseLoader(abc.ABC):
     """
 
     # Subclasses declare which file extensions they handle, e.g. [".json"]
-    extensions: ClassVar[List[str]] = []
+    extensions: ClassVar[list[str]] = []
 
     @abc.abstractmethod
     def load(self, path: Path) -> Any:
